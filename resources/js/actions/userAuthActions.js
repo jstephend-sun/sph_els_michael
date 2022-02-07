@@ -21,7 +21,6 @@ import {
 export const freshState = () => (dispatch) => {
     dispatch({
         type: FRESH_STATE,
-        password: "",
     });
 };
 /*  
@@ -32,9 +31,13 @@ export const signIn = (formData) => async (dispatch) => {
     const email = formData.get("email");
     const password = formData.get("password");
 
+    const users = {
+        email: email,
+        password: password,
+    };
+
     // Check both the email and password field are not empty
     if (email !== "" && password !== "") {
-        // Check if user exists
         await userApi.post("/sign-in", users).then((response) => {
             data = {
                 requestError: response.data.errors,
@@ -62,13 +65,21 @@ export const signIn = (formData) => async (dispatch) => {
 /*  
     Sign Up
 */
-export const signUp = (formData) => (dispatch) => {
+export const signUp = (formData) => async (dispatch) => {
     var data = {};
     const fname = formData.get("firstName");
     const lname = formData.get("lastName");
     const email = formData.get("email");
     const password = formData.get("password");
-    const confirmPass = formData.get("confirmPass");
+    const confirmPass = formData.get("confirm_password");
+
+    const users = {
+        fname: fname,
+        lname: lname,
+        email: email,
+        password: password,
+        confirm_password: confirmPass,
+    };
 
     // Display an error if password and confirm password is mismatched
     if (password !== confirmPass) {
@@ -85,10 +96,22 @@ export const signUp = (formData) => (dispatch) => {
             password !== "" &&
             confirmPass !== ""
         ) {
-            data = {
-                requestError: true,
-                requestErrorMessage: "Success",
-            };
+            await userApi
+                .post("/sign-up", users)
+                .then((response) => {
+                    data = {
+                        requestError: response.data.error,
+                        requestErrorMessage: response.data.message,
+                    };
+                    console.log(data);
+                })
+                .catch((error) => {
+                    data = {
+                        requestError: true,
+                        requestErrorMessage:
+                            error.response.data.errors.email[0],
+                    };
+                });
         } else {
             /*
             The input validation is handled already and this
@@ -136,14 +159,23 @@ export const validateEmail = (email) => (dispatch) => {
 /*  
     Validate Password
 */
-export const validatePassword = (password) => (dispatch) => {
+export const validatePassword = (type, password) => (dispatch) => {
     var isValid = false;
     var message = "";
 
     if (password === "") {
         message = "This field should not be empty";
     } else {
-        isValid = true;
+        // If Sign Up Page display error if password does not meet requirements
+        if (type === "signUp") {
+            if (password.length < 8) {
+                message = "Minimum of 8 characters";
+            } else {
+                isValid = true;
+            }
+        } else {
+            isValid = true;
+        }
     }
 
     dispatch({

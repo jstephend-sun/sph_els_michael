@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Link as LinkRouter, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -33,17 +33,6 @@ import {
 const SignIn = (props) => {
     const navigate = useNavigate();
 
-    // When navigated to this component, re-initialize the component state
-    useEffect(() => {
-        props.freshState();
-        /* 
-            When navigated to this component, the password should be cleared
-            but when you put password in this component and try to navigate to
-            Sign Up, the password field has values. This checks if password has
-            values on first render then clear the values.
-        */
-    }, []);
-
     // Check requestError, if false then navigate to dashboard page
     useEffect(() => {
         if (props.requestError === false) {
@@ -57,13 +46,17 @@ const SignIn = (props) => {
     // This will run, if there is changes in the state
     useEffect(() => {
         // Enable the submit button if no errors in fields
-        if (
-            props.isValidEmail === true &&
-            props.isValidPassword === true
-        ) {
+        if (props.isValidEmail === true && props.isValidPassword === true) {
             props.disableSubmit(false);
         }
     }, [props]);
+
+    const navigateToSignUp = (e) => {
+        e.preventDefault();
+
+        props.freshState();
+        navigate("/sign-up");
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -172,15 +165,9 @@ const SignIn = (props) => {
                             id="email"
                             type="email"
                             helperText={
-                                props.emailError === ""
-                                    ? " "
-                                    : props.emailError
+                                props.emailError === "" ? " " : props.emailError
                             }
-                            error={
-                                props.emailError === ""
-                                    ? false
-                                    : true
-                            }
+                            error={props.emailError === "" ? false : true}
                             margin="dense"
                             required
                             fullWidth
@@ -192,18 +179,17 @@ const SignIn = (props) => {
                         />
                         <TextField
                             onKeyUp={(e) => {
-                                props.validatePassword(e.target.value);
+                                props.validatePassword(
+                                    "signIn",
+                                    e.target.value
+                                );
                             }}
                             helperText={
                                 props.passwordError === ""
                                     ? " "
                                     : props.passwordError
                             }
-                            error={
-                                props.passwordError === "" 
-                                    ? false
-                                    : true
-                            }
+                            error={props.passwordError === "" ? false : true}
                             margin="normal"
                             required
                             fullWidth
@@ -262,10 +248,8 @@ const SignIn = (props) => {
                             <Grid item>
                                 <Link
                                     href=""
-                                    component={LinkRouter}
-                                    to="/sign-up"
                                     variant="body2"
-                                    onClick={(e) => {props.freshState}}
+                                    onClick={navigateToSignUp}
                                 >
                                     Don't have an account? Sign Up
                                 </Link>
