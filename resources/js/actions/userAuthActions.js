@@ -11,7 +11,9 @@ import {
     SHOW_PASSWORD,
     SHOW_CONFIRMPASSWORD,
     TOGGLE_SUBMITBTN,
+    USER_AUTH_DETAILS,
 } from "./types";
+
 /*
     When you navigate to the Sign In Page
     The state has data already which was not cleared. 
@@ -42,8 +44,16 @@ export const signIn = (formData) => async (dispatch) => {
             data = {
                 requestError: response.data.errors,
                 requestErrorMessage: response.data.message,
+                userAuth: response.data.user_auth,
             };
         });
+        // Assigns the userAuth with auth values 
+        if (data.requestError === false) {
+            dispatch({
+                type: USER_AUTH_DETAILS,
+                userAuth: data.userAuth,
+            })
+        }
     } else {
         /*
             The input validation is handled already and this
@@ -270,3 +280,12 @@ export const disableSubmit = (isDisabled) => (dispatch) => {
         isSubmitDisabled: isDisabled,
     });
 };
+/*  
+    Assign user auth details value with cookie values
+*/
+export const setUserAuthDetails = (userAuth) => (dispatch) => {
+    dispatch({
+        type: USER_AUTH_DETAILS,
+        userAuth: userAuth,
+    })
+}
