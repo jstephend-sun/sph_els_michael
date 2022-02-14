@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { withCookies } from "react-cookie";
@@ -34,27 +34,51 @@ import {
 } from "../actions/userAuthActions";
 
 const SignIn = (props) => {
+    const [dialog, setDialog] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const { cookies } = props;
-        // Make a cookie for userAuth, so that the values can be retrieved on site refresh
-        cookies.set("userAuth", props.userAuth , { path: "/" });
+        const userAuth = props.cookies.get("userAuth");
+        // On first load, if cookie is not empty then redirect to dashboard
+        if (userAuth !== undefined) {
+            // If admin, then navigate to categories
+            if (userAuth.is_admin === 1) {
+                navigate("/categories");
+            } else {
+                navigate("/dashboard");
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        /*
+            Check first if userAuth data is not empty then store data in cookie for userAuth, so 
+            that the values can be retrieved on site refresh
+        */
+        if (props.userAuth.length !== 0) {
+            props.cookies.set("userAuth", props.userAuth, { path: "/" });
+        }
     }, [props.userAuth]);
 
-    // Check requestError, if false then navigate to dashboard page
+    /*
+        Check requestError is false and check if userAuth ( userAuth is for successfully signed
+        in user ) data is not empty, then navigate to dashboard page
+    */
     useEffect(() => {
-        if (props.requestError === false) {
+        if (props.requestError === false && props.userAuth.length !== 0) {
+            // Display signing in dialog
+            setDialog(true);
+
             const timer = setTimeout(() => {
-                if (props.userAuth.is_admin === "1") {
+                if (props.userAuth.is_admin === 1) {
                     navigate("/categories");
-                }else {
+                } else {
                     navigate("/dashboard");
                 }
             }, 2500);
             return () => clearTimeout(timer);
         }
-    }, [props.requestError]);
+    }, [props.requestError, props.userAuth]);
 
     // This will run, if there is changes in the state
     useEffect(() => {
@@ -62,7 +86,7 @@ const SignIn = (props) => {
         if (props.isValidEmail === true && props.isValidPassword === true) {
             props.disableSubmit(false);
         }
-    }, [props]);
+    }, [props.isValidEmail, props.isValidPassword]);
 
     const navigateToSignUp = (e) => {
         e.preventDefault();
@@ -71,10 +95,10 @@ const SignIn = (props) => {
         navigate("/sign-up");
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
         // This is for the email and password inputted data
-        const data = new FormData(event.currentTarget);
+        const data = new FormData(e.currentTarget);
 
         props.signIn(data);
     };
@@ -86,7 +110,7 @@ const SignIn = (props) => {
 
     return (
         <Grid container component="main" sx={{ height: "100vh" }}>
-            {props.requestError === false ? (
+            {dialog === true ? (
                 <Dialog
                     fullWidth
                     open={true}
@@ -107,6 +131,7 @@ const SignIn = (props) => {
                     </DialogTitle>
                 </Dialog>
             ) : null}
+
             <Grid
                 item
                 xs={false}

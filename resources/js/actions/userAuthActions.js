@@ -2,6 +2,7 @@ import userApi from "../apis/userApi";
 import {
     SIGN_IN,
     SIGN_UP,
+    SIGN_OUT,
     VALIDATE_EMAIL,
     VALIDATE_PASSWORD,
     VALIDATE_CONFIRMPASS,
@@ -14,10 +15,13 @@ import {
     USER_AUTH_DETAILS,
 } from "./types";
 
+// This will be change in the action creators
+var data = {};
+
 /*
-    When you navigate to the Sign In Page
-    The state has data already which was not cleared. 
-    refreshPage function helps in re-initialize
+    When you navigate to the Sign In Page, the
+    state has data already which was not cleared. 
+    refreshPage function helps in re-initializing
     your state
 */
 export const freshState = () => (dispatch) => {
@@ -29,7 +33,6 @@ export const freshState = () => (dispatch) => {
     Sign In
 */
 export const signIn = (formData) => async (dispatch) => {
-    var data = {};
     const email = formData.get("email");
     const password = formData.get("password");
 
@@ -44,15 +47,18 @@ export const signIn = (formData) => async (dispatch) => {
             data = {
                 requestError: response.data.errors,
                 requestErrorMessage: response.data.message,
+                token: response.data.token,
                 userAuth: response.data.user_auth,
             };
         });
-        // Assigns the userAuth with auth values 
+        // Assigns the userAuth with auth values
         if (data.requestError === false) {
+            // Iterate the token to userAuth data
+            const token = data.token;
             dispatch({
                 type: USER_AUTH_DETAILS,
-                userAuth: data.userAuth,
-            })
+                userAuth: { ...data.userAuth, token },
+            });
         }
     } else {
         /*
@@ -76,7 +82,6 @@ export const signIn = (formData) => async (dispatch) => {
     Sign Up
 */
 export const signUp = (formData) => async (dispatch) => {
-    var data = {};
     const fname = formData.get("firstName");
     const lname = formData.get("lastName");
     const email = formData.get("email");
@@ -113,7 +118,6 @@ export const signUp = (formData) => async (dispatch) => {
                         requestError: response.data.error,
                         requestErrorMessage: response.data.message,
                     };
-                    console.log(data);
                 })
                 .catch((error) => {
                     data = {
@@ -139,6 +143,39 @@ export const signUp = (formData) => async (dispatch) => {
             requestErrorMessage: data.requestErrorMessage,
         });
     }
+};
+/*  
+    Sign Out
+*/
+export const signOut = (id) => async (dispatch) => {
+    if (id !== "") {
+        await userApi
+            .post(`${id}/sign-out`)
+            .then((response) => {
+                data = {
+                    requestError: false,
+                    requestErrorMessage: response.data.requestErrorMessage,
+                };
+            })
+            .catch((error) => {
+                data = {
+                    requestError: true,
+                    requestErrorMessage: response.data.requestErrorMessage,
+                };
+            });
+    } else {
+        data = {
+            requestError: true,
+            requestErrorMessage: "Unauthorized Action",
+        };
+    }
+    
+    dispatch({
+        type: SIGN_OUT,
+        requestError: data.requestError,
+        requestErrorMessage: data.requestErrorMessage,
+    });
+  
 };
 /*  
     Validate Email
@@ -176,7 +213,7 @@ export const validatePassword = (type, password) => (dispatch) => {
     if (password === "") {
         message = "This field should not be empty";
     } else {
-        // If Sign Up Page display error if password does not meet requirements
+        // Displays error if password does not meet requirements
         if (type === "signUp") {
             if (password.length < 8) {
                 message = "Minimum of 8 characters";
@@ -287,5 +324,5 @@ export const setUserAuthDetails = (userAuth) => (dispatch) => {
     dispatch({
         type: USER_AUTH_DETAILS,
         userAuth: userAuth,
-    })
-}
+    });
+};

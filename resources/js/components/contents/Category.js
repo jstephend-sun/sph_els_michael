@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 
 import { Card, CardContent, Grid, Typography } from "@mui/material";
 
-const Category = () => {
+const Category = (props) => {
     return (
         <div>
             <Typography>
@@ -42,4 +43,10 @@ const Category = () => {
     );
 };
 
-export default Category;
+const mapToStateProps = (state) => {
+    return {
+        userAuth: state.auth.userAuth
+    }
+}
+
+export default connect(mapToStateProps)(Category);

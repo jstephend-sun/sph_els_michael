@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import { withCookies } from "react-cookie";
 
 import {
     AppBar,
@@ -9,18 +10,57 @@ import {
     Grid,
     Link,
     IconButton,
+    Menu,
+    MenuItem,
     Toolbar,
     Tooltip,
+    Typography,
 } from "@mui/material";
+
+import { BASE_URL } from "../../config";
+import { signOut } from "../../actions/userAuthActions";
 
 const Header = (props) => {
     const navigate = useNavigate();
     const [URI, setURI] = useState("");
-    
+    // Menu dropdown settings
+    const menuSettings = ["Profile", "Dashboard", "Sign Out"];
+    // Style for active link buttons
+    const activeBtnStyle = {
+        color: "#00587B",
+        fontWeight: "600",
+    };
+    // Style for inactive link buttons
+    const inActiveBtnStyle = {
+        color: "white",
+    };
+
     useEffect(() => {
-        // This is to make the link styled as active
+        // This is to make the link styled as active on first load
         setURI(window.location.pathname);
     }, []);
+
+    useEffect(() => {
+        // Checks if userAuth has been re-initialazed as empty on sign out
+        if (props.userAuth.length === 0) {
+            // Navigate back to sign in page
+            // Using location.reload to initialize sign in page state
+            window.location.replace(BASE_URL);
+        }
+        console.log(props.userAuth);
+    }, [props]);
+
+    const handleSignOut = (e) => {
+        e.preventDefault();
+        // When signing out you will need to pass the current signed in user id
+        props.signOut(props.userAuth.id);
+        /*
+            On sign out, we need to re-initialize the cookie userAuth object ( userAuth has data if user is 
+            successfully signed in ) to empty array so that it will trigger a redirection to sign
+            in page.
+        */
+        props.cookies.remove("userAuth");
+    };
 
     const navigateToHome = (e) => {
         e.preventDefault();
@@ -33,7 +73,7 @@ const Header = (props) => {
         } else {
             navigate("/categories");
         }
-        
+
         setURI(window.location.pathname);
     };
 
@@ -59,6 +99,16 @@ const Header = (props) => {
         navigate("/users");
 
         setURI(window.location.pathname);
+    };
+
+    const [anchorUser, setAnchorUser] = useState(null);
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorUser(null);
     };
 
     return (
@@ -96,8 +146,13 @@ const Header = (props) => {
                                     my: 1,
                                     mx: 1.5,
                                     textDecoration: "none",
-                                    color: URI === "/categories" ? "#00587B" : "white",
-                                    fontWeight: URI === "/categories" ? "600" : "",
+                                    /*
+                                        When you want to put some conditioning in MUI styles and you want
+                                        to pass style objects, you will need to you use this format.
+                                    */
+                                    ...(URI === "/categories"
+                                        ? activeBtnStyle
+                                        : inActiveBtnStyle),
                                 }}
                             >
                                 Categories
@@ -112,8 +167,9 @@ const Header = (props) => {
                                     my: 1,
                                     mx: 1.5,
                                     textDecoration: "none",
-                                    color: URI === "/words" ? "#00587B" : "white",
-                                    fontWeight: URI === "/words" ? "600" : "",
+                                    ...(URI === "/words"
+                                        ? activeBtnStyle
+                                        : inActiveBtnStyle),
                                 }}
                             >
                                 Words
@@ -128,8 +184,9 @@ const Header = (props) => {
                                     my: 1,
                                     mx: 1.5,
                                     textDecoration: "none",
-                                    color: URI === "/users" ? "#00587B" : "white",
-                                    fontWeight: URI === "/users" ? "600" : "",
+                                    ...(URI === "/users"
+                                        ? activeBtnStyle
+                                        : inActiveBtnStyle),
                                 }}
                             >
                                 Users
@@ -139,13 +196,45 @@ const Header = (props) => {
                     <Grid item xs={1}>
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
-                                <IconButton sx={{ p: 0 }}>
-                                    <Avatar
-                                        alt="Remy Sharp"
-                                        src="/static/images/avatar/2.jpg"
-                                    />
+                                <IconButton
+                                    onClick={handleOpenUserMenu}
+                                    sx={{ p: 0 }}
+                                >
+                                    <Avatar alt="Admin" src="" />
                                 </IconButton>
                             </Tooltip>
+                            <Menu
+                                sx={{ mt: "45px" }}
+                                id="menu-appbar"
+                                anchorEl={anchorUser}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(anchorUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                {menuSettings.map((setting) => (
+                                    <MenuItem
+                                        key={setting}
+                                        onClick={handleCloseUserMenu}
+                                        onClick={
+                                            setting === "Sign Out"
+                                                ? handleSignOut
+                                                : null
+                                        }
+                                    >
+                                        <Typography textAlign="center">
+                                            {setting}
+                                        </Typography>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
                         </Box>
                     </Grid>
                 </Toolbar>
@@ -154,10 +243,12 @@ const Header = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
         userAuth: state.auth.userAuth,
+        isLoggedOut: state.auth.isLoggedOut,
+        cookies: ownProps.cookies,
     };
 };
 
-export default connect(mapStateToProps)(Header);
+export default withCookies(connect(mapStateToProps, { signOut })(Header));
