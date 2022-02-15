@@ -169,13 +169,12 @@ export const signOut = (id) => async (dispatch) => {
             requestErrorMessage: "Unauthorized Action",
         };
     }
-    
+
     dispatch({
         type: SIGN_OUT,
         requestError: data.requestError,
         requestErrorMessage: data.requestErrorMessage,
     });
-  
 };
 /*  
     Validate Email

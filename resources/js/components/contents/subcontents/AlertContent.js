@@ -2,12 +2,11 @@ import React, { useState } from "react";
 
 import { Alert, Collapse } from "@mui/material";
 
-const AlertContent = (props) => {
-    const [open, setOpen] = useState(true);
+const AlertContent = (props) => {   
 
     return (
         <div>
-            <Collapse in={open}>
+            <Collapse in={true}>
                 <Alert
                     severity={props.isError === false ? "success" : "error"}
                     sx={{ mb: 2 }}

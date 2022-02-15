@@ -63,6 +63,7 @@ export default (state = initialState, action) => {
                     successfully signed in ) to empty array so that it will trigger a redirection
                     to sign in page.
                 */
+                userAuth: [],
                 isLoggedOut: true,
             }
         case VALIDATE_EMAIL:

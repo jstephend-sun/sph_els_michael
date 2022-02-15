@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-import { withCookies } from "react-cookie";
 
 import {
     AppBar,
@@ -16,9 +15,6 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-
-import { BASE_URL } from "../../config";
-import { signOut } from "../../actions/userAuthActions";
 
 const Header = (props) => {
     const navigate = useNavigate();
@@ -39,28 +35,6 @@ const Header = (props) => {
         // This is to make the link styled as active on first load
         setURI(window.location.pathname);
     }, []);
-
-    useEffect(() => {
-        // Checks if userAuth has been re-initialazed as empty on sign out
-        if (props.userAuth.length === 0) {
-            // Navigate back to sign in page
-            // Using location.reload to initialize sign in page state
-            window.location.replace(BASE_URL);
-        }
-        console.log(props.userAuth);
-    }, [props]);
-
-    const handleSignOut = (e) => {
-        e.preventDefault();
-        // When signing out you will need to pass the current signed in user id
-        props.signOut(props.userAuth.id);
-        /*
-            On sign out, we need to re-initialize the cookie userAuth object ( userAuth has data if user is 
-            successfully signed in ) to empty array so that it will trigger a redirection to sign
-            in page.
-        */
-        props.cookies.remove("userAuth");
-    };
 
     const navigateToHome = (e) => {
         e.preventDefault();
@@ -225,7 +199,7 @@ const Header = (props) => {
                                         onClick={handleCloseUserMenu}
                                         onClick={
                                             setting === "Sign Out"
-                                                ? handleSignOut
+                                                ? props.handleSignOut
                                                 : null
                                         }
                                     >
@@ -246,9 +220,8 @@ const Header = (props) => {
 const mapStateToProps = (state, ownProps) => {
     return {
         userAuth: state.auth.userAuth,
-        isLoggedOut: state.auth.isLoggedOut,
-        cookies: ownProps.cookies,
+        handleSignOut: ownProps.handleSignOut,
     };
 };
 
-export default withCookies(connect(mapStateToProps, { signOut })(Header));
+export default connect(mapStateToProps)(Header);

@@ -36,30 +36,6 @@ import {
 const SignIn = (props) => {
     const [dialog, setDialog] = useState(false);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const userAuth = props.cookies.get("userAuth");
-        // On first load, if cookie is not empty then redirect to dashboard
-        if (userAuth !== undefined) {
-            // If admin, then navigate to categories
-            if (userAuth.is_admin === 1) {
-                navigate("/categories");
-            } else {
-                navigate("/dashboard");
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        /*
-            Check first if userAuth data is not empty then store data in cookie for userAuth, so 
-            that the values can be retrieved on site refresh
-        */
-        if (props.userAuth.length !== 0) {
-            props.cookies.set("userAuth", props.userAuth, { path: "/" });
-        }
-    }, [props.userAuth]);
-
     /*
         Check requestError is false and check if userAuth ( userAuth is for successfully signed
         in user ) data is not empty, then navigate to dashboard page

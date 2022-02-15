@@ -10,7 +10,9 @@ const Pagination = (props) => {
             rowsPerPageOptions={[]}
             count={props.total !== undefined ? props.total : 0}
             page={props.page !== undefined ? props.page - 1 : 0}
-            rowsPerPage={props.rowsPerPage !== undefined ? props.rowsPerPage : 0}
+            rowsPerPage={
+                props.rowsPerPage !== undefined ? props.rowsPerPage : 0
+            }
             onPageChange={props.handleOnPageChange}
             sx={{ mr: 4, mt: -3 }}
         />

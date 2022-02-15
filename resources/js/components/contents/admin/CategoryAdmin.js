@@ -94,7 +94,10 @@ const CategoryAdmin = (props) => {
 
     return (
         <React.Fragment>
-            <CategoryAdminDialog type={type} setType={setType}></CategoryAdminDialog>
+            <CategoryAdminDialog
+                type={type}
+                setType={setType}
+            ></CategoryAdminDialog>
             <Grid container>
                 <Grid item xs={6}>
                     <Typography component="h5" variant="h5" sx={{ mb: 5 }}>
