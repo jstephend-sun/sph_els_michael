@@ -25473,8 +25473,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var freshState = function freshState() {
   return function (dispatch) {
     dispatch({
+<<<<<<< Updated upstream
       type: _types__WEBPACK_IMPORTED_MODULE_2__.FRESH_STATE,
       password: ""
+=======
+      type: _types__WEBPACK_IMPORTED_MODULE_2__.FRESH_STATE
+>>>>>>> Stashed changes
     });
   };
 };
@@ -25551,6 +25555,7 @@ var signIn = function signIn(formData) {
 */
 
 var signUp = function signUp(formData) {
+<<<<<<< Updated upstream
   return function (dispatch) {
     var data = {};
     var fname = formData.get("firstName");
@@ -25590,6 +25595,96 @@ var signUp = function signUp(formData) {
       });
     }
   };
+=======
+  return /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(dispatch) {
+      var data, fname, lname, email, password, confirmPass, users;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              data = {};
+              fname = formData.get("firstName");
+              lname = formData.get("lastName");
+              email = formData.get("email");
+              password = formData.get("password");
+              confirmPass = formData.get("confirm_password");
+              users = {
+                fname: fname,
+                lname: lname,
+                email: email,
+                password: password,
+                confirm_password: confirmPass
+              }; // Display an error if password and confirm password is mismatched
+
+              if (!(password !== confirmPass)) {
+                _context2.next = 11;
+                break;
+              }
+
+              dispatch({
+                type: _types__WEBPACK_IMPORTED_MODULE_2__.VALIDATE_CONFIRMPASS,
+                confirmPassError: "Password Mismatch",
+                isValidConfirmPass: false
+              });
+              _context2.next = 18;
+              break;
+
+            case 11:
+              if (!(fname !== "" && lname !== "" && email !== "" && password !== "" && confirmPass !== "")) {
+                _context2.next = 16;
+                break;
+              }
+
+              _context2.next = 14;
+              return _apis_userApi__WEBPACK_IMPORTED_MODULE_1__["default"].post("/sign-up", users).then(function (response) {
+                data = {
+                  requestError: response.data.error,
+                  requestErrorMessage: response.data.message
+                };
+                console.log(data);
+              })["catch"](function (error) {
+                data = {
+                  requestError: true,
+                  requestErrorMessage: error.response.data.errors.email[0]
+                };
+              });
+
+            case 14:
+              _context2.next = 17;
+              break;
+
+            case 16:
+              /*
+              The input validation is handled already and this
+              is for safe measures, if ever some of the fields
+              are empty. 
+              */
+              data = {
+                requestError: true,
+                requestErrorMessage: "Error...Please, Try Again"
+              };
+
+            case 17:
+              dispatch({
+                type: _types__WEBPACK_IMPORTED_MODULE_2__.SIGN_UP,
+                requestError: data.requestError,
+                requestErrorMessage: data.requestErrorMessage
+              });
+
+            case 18:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    return function (_x2) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+>>>>>>> Stashed changes
 };
 /*  
     Validate Email
@@ -25624,7 +25719,11 @@ var validateEmail = function validateEmail(email) {
     Validate Password
 */
 
+<<<<<<< Updated upstream
 var validatePassword = function validatePassword(password) {
+=======
+var validatePassword = function validatePassword(type, password) {
+>>>>>>> Stashed changes
   return function (dispatch) {
     var isValid = false;
     var message = "";
@@ -25632,7 +25731,20 @@ var validatePassword = function validatePassword(password) {
     if (password === "") {
       message = "This field should not be empty";
     } else {
+<<<<<<< Updated upstream
       isValid = true;
+=======
+      // If Sign Up Page display error if password does not meet requirements
+      if (type === "signUp") {
+        if (password.length < 8) {
+          message = "Minimum of 8 characters";
+        } else {
+          isValid = true;
+        }
+      } else {
+        isValid = true;
+      }
+>>>>>>> Stashed changes
     }
 
     dispatch({
@@ -25760,7 +25872,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "baseURL": () => (/* binding */ baseURL)
 /* harmony export */ });
+<<<<<<< Updated upstream
 var baseURL = "http://127.0.0.1:8000/api/v1";
+=======
+var baseURL = 'http://127.0.0.1:8000/api/v1';
+>>>>>>> Stashed changes
 
 /***/ }),
 
@@ -25783,9 +25899,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (axios__WEBPACK_IMPORTED_MODULE_0___default().create({
   baseURL: _config__WEBPACK_IMPORTED_MODULE_1__.baseURL,
   headers: {
+<<<<<<< Updated upstream
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     Accept: "application/json"
+=======
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Accept': 'application/json'
+>>>>>>> Stashed changes
   }
 }));
 
@@ -25822,7 +25944,11 @@ react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime
   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.BrowserRouter, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_Main__WEBPACK_IMPORTED_MODULE_3__["default"], {})
   })
+<<<<<<< Updated upstream
 }), document.querySelector("#root"));
+=======
+}), document.querySelector('#root'));
+>>>>>>> Stashed changes
 
 /***/ }),
 
@@ -25887,7 +26013,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+<<<<<<< Updated upstream
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+=======
+>>>>>>> Stashed changes
 /* harmony import */ var _mui_material_Avatar__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mui/material/Avatar */ "./node_modules/@mui/material/Avatar/Avatar.js");
 /* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/Button.js");
 /* harmony import */ var _mui_material_TextField__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @mui/material/TextField */ "./node_modules/@mui/material/TextField/TextField.js");
@@ -25938,6 +26067,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var SignIn = function SignIn(props) {
   var _jsx3;
 
+<<<<<<< Updated upstream
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)(); // When navigated to this component, re-initialize the component state
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -25949,6 +26079,9 @@ var SignIn = function SignIn(props) {
         values on first render then clear the values.
     */
   }, []); // Check requestError, if false then navigate to dashboard page
+=======
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)(); // Check requestError, if false then navigate to dashboard page
+>>>>>>> Stashed changes
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (props.requestError === false) {
@@ -25968,6 +26101,15 @@ var SignIn = function SignIn(props) {
     }
   }, [props]);
 
+<<<<<<< Updated upstream
+=======
+  var navigateToSignUp = function navigateToSignUp(e) {
+    e.preventDefault();
+    props.freshState();
+    navigate("/sign-up");
+  };
+
+>>>>>>> Stashed changes
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault(); // This is for the email and password inputted data
 
@@ -26083,7 +26225,11 @@ var SignIn = function SignIn(props) {
             }
           }, "autoComplete", "off")), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_14__["default"], (_jsx3 = {
             onKeyUp: function onKeyUp(e) {
+<<<<<<< Updated upstream
               props.validatePassword(e.target.value);
+=======
+              props.validatePassword("signIn", e.target.value);
+>>>>>>> Stashed changes
             },
             helperText: props.passwordError === "" ? " " : props.passwordError,
             error: props.passwordError === "" ? false : true,
@@ -26138,12 +26284,17 @@ var SignIn = function SignIn(props) {
               item: true,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Link__WEBPACK_IMPORTED_MODULE_22__["default"], {
                 href: "",
+<<<<<<< Updated upstream
                 component: react_router_dom__WEBPACK_IMPORTED_MODULE_23__.Link,
                 to: "/sign-up",
                 variant: "body2",
                 onClick: function onClick(e) {
                   props.freshState;
                 },
+=======
+                variant: "body2",
+                onClick: navigateToSignUp,
+>>>>>>> Stashed changes
                 children: "Don't have an account? Sign Up"
               })
             })]
@@ -26199,6 +26350,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+<<<<<<< Updated upstream
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/Button.js");
 /* harmony import */ var _mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/material/TextField */ "./node_modules/@mui/material/TextField/TextField.js");
@@ -26211,6 +26363,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mui/material/InputAdornment */ "./node_modules/@mui/material/InputAdornment/InputAdornment.js");
 /* harmony import */ var _mui_icons_material_Visibility__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mui/icons-material/Visibility */ "./node_modules/@mui/icons-material/Visibility.js");
 /* harmony import */ var _mui_icons_material_VisibilityOff__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mui/icons-material/VisibilityOff */ "./node_modules/@mui/icons-material/VisibilityOff.js");
+=======
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var _mui_material_Button__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @mui/material/Button */ "./node_modules/@mui/material/Button/Button.js");
+/* harmony import */ var _mui_material_TextField__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mui/material/TextField */ "./node_modules/@mui/material/TextField/TextField.js");
+/* harmony import */ var _mui_material_Link__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @mui/material/Link */ "./node_modules/@mui/material/Link/Link.js");
+/* harmony import */ var _mui_material_Typography__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/material/Typography */ "./node_modules/@mui/material/Typography/Typography.js");
+/* harmony import */ var _mui_material_Container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/material/Container */ "./node_modules/@mui/material/Container/Container.js");
+/* harmony import */ var _mui_material_Grid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/material/Grid */ "./node_modules/@mui/material/Grid/Grid.js");
+/* harmony import */ var _mui_material_Box__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/material/Box */ "./node_modules/@mui/material/Box/Box.js");
+/* harmony import */ var _mui_material_IconButton__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @mui/material/IconButton */ "./node_modules/@mui/material/IconButton/IconButton.js");
+/* harmony import */ var _mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @mui/material/InputAdornment */ "./node_modules/@mui/material/InputAdornment/InputAdornment.js");
+/* harmony import */ var _mui_icons_material_Visibility__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @mui/icons-material/Visibility */ "./node_modules/@mui/icons-material/Visibility.js");
+/* harmony import */ var _mui_icons_material_VisibilityOff__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mui/icons-material/VisibilityOff */ "./node_modules/@mui/icons-material/VisibilityOff.js");
+>>>>>>> Stashed changes
 /* harmony import */ var _layouts_Footer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./layouts/Footer */ "./resources/js/components/layouts/Footer.js");
 /* harmony import */ var _actions_userAuthActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/userAuthActions */ "./resources/js/actions/userAuthActions.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -26238,24 +26404,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var SignUp = function SignUp(props) {
   var _jsx4;
 
+<<<<<<< Updated upstream
   // When navigated to this component, re-initialize this component
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     props.freshState();
     console.log("sign up");
     console.log(props.password);
   }, []); // This will run, if there is changes in the state
+=======
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)(); // This will run, if there is changes in the state
+>>>>>>> Stashed changes
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // Enable the submit button if no errors in fields
     if (props.isValidEmail === true && props.isValidPassword === true && props.isValidConfirmPass === true && props.isValidFname === true && props.isValidLname === true) {
       props.disableSubmit(false);
     }
+<<<<<<< Updated upstream
   }, [props]);
+=======
+  }, [props.isValidEmail, props.isValidPassword, props.isValidConfirmPass, props.isValidFname, props.isValidLname]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // If successfully registered, navigate to Sign In page
+    if (props.requestError === false) {
+      props.disableSubmit(true);
+      var timer = setTimeout(function () {
+        // Re-initialize the state before navigating to the component
+        props.freshState();
+        navigate("/");
+      }, 2500);
+      return function () {
+        return clearTimeout(timer);
+      };
+    }
+  }, [props.requestError]);
+>>>>>>> Stashed changes
 
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
     var data = new FormData(event.currentTarget);
     props.signUp(data);
+<<<<<<< Updated upstream
+=======
+  };
+
+  var navigateToSignIn = function navigateToSignIn(e) {
+    e.preventDefault();
+    props.freshState();
+    navigate("/");
+>>>>>>> Stashed changes
   }; // Toggle Show Password
 
 
@@ -26268,16 +26465,24 @@ var SignUp = function SignUp(props) {
     props.showConfirmPass(props.isShownConfirmPass);
   };
 
+<<<<<<< Updated upstream
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Container__WEBPACK_IMPORTED_MODULE_5__["default"], {
     component: "main",
     maxWidth: "xs",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Box__WEBPACK_IMPORTED_MODULE_6__["default"], {
+=======
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Container__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    component: "main",
+    maxWidth: "xs",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Box__WEBPACK_IMPORTED_MODULE_7__["default"], {
+>>>>>>> Stashed changes
       sx: {
         marginTop: 4,
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
       },
+<<<<<<< Updated upstream
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_7__["default"], {
         component: "h1",
         variant: "h5",
@@ -26290,12 +26495,28 @@ var SignUp = function SignUp(props) {
         },
         children: [props.requestErrorMessage, "\xA0"]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Box__WEBPACK_IMPORTED_MODULE_6__["default"], {
+=======
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        component: "h1",
+        variant: "h5",
+        children: "Sign up"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        component: "h6",
+        variant: "h6",
+        style: {
+          color: "".concat(props.requestError === true ? "red" : "green"),
+          fontWeight: "".concat(props.requestError === true ? "" : "bold")
+        },
+        children: [props.requestErrorMessage, "\xA0"]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Box__WEBPACK_IMPORTED_MODULE_7__["default"], {
+>>>>>>> Stashed changes
         component: "form",
         noValidate: true,
         sx: {
           mt: 1
         },
         onSubmit: handleSubmit,
+<<<<<<< Updated upstream
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_8__["default"], {
           container: true,
           spacing: 2,
@@ -26304,6 +26525,16 @@ var SignUp = function SignUp(props) {
             xs: 12,
             sm: 6,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], {
+=======
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+          container: true,
+          spacing: 2,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            item: true,
+            xs: 12,
+            sm: 6,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_10__["default"], {
+>>>>>>> Stashed changes
               onKeyUp: function onKeyUp(e) {
                 props.validateFname(e.target.value);
               },
@@ -26319,11 +26550,19 @@ var SignUp = function SignUp(props) {
               },
               autoComplete: "off"
             })
+<<<<<<< Updated upstream
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_8__["default"], {
             item: true,
             xs: 12,
             sm: 6,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], _defineProperty({
+=======
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            item: true,
+            xs: 12,
+            sm: 6,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_10__["default"], _defineProperty({
+>>>>>>> Stashed changes
               onKeyUp: function onKeyUp(e) {
                 props.validateLname(e.target.value);
               },
@@ -26339,10 +26578,17 @@ var SignUp = function SignUp(props) {
                 required: false
               }
             }, "autoComplete", "off"))
+<<<<<<< Updated upstream
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_8__["default"], {
             item: true,
             xs: 12,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], _defineProperty({
+=======
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            item: true,
+            xs: 12,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_10__["default"], _defineProperty({
+>>>>>>> Stashed changes
               onKeyUp: function onKeyUp(e) {
                 props.validateEmail(e.target.value);
               },
@@ -26358,12 +26604,21 @@ var SignUp = function SignUp(props) {
                 required: false
               }
             }, "autoComplete", "off"))
+<<<<<<< Updated upstream
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_8__["default"], {
             item: true,
             xs: 12,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], {
               onKeyUp: function onKeyUp(e) {
                 props.validatePassword(e.target.value);
+=======
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            item: true,
+            xs: 12,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              onKeyUp: function onKeyUp(e) {
+                props.validatePassword("signUp", e.target.value);
+>>>>>>> Stashed changes
               },
               helperText: props.passwordError === "" ? " " : props.passwordError,
               error: props.passwordError === "" ? false : true,
@@ -26379,6 +26634,7 @@ var SignUp = function SignUp(props) {
               type: props.isShownPass === false ? "password" : "text",
               defaultValue: props.password,
               InputProps: {
+<<<<<<< Updated upstream
                 endAdornment: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_10__["default"], {
                   position: "end",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], {
@@ -26386,14 +26642,30 @@ var SignUp = function SignUp(props) {
                     onClick: handleShowPassword,
                     edge: "end",
                     children: props.isShownPass ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_icons_material_VisibilityOff__WEBPACK_IMPORTED_MODULE_12__["default"], {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_icons_material_Visibility__WEBPACK_IMPORTED_MODULE_13__["default"], {})
+=======
+                endAdornment: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                  position: "end",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_12__["default"], {
+                    "aria-label": "toggle password visibility",
+                    onClick: handleShowPassword,
+                    edge: "end",
+                    children: props.isShownPass ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_icons_material_VisibilityOff__WEBPACK_IMPORTED_MODULE_13__["default"], {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_icons_material_Visibility__WEBPACK_IMPORTED_MODULE_14__["default"], {})
+>>>>>>> Stashed changes
                   })
                 })
               }
             })
+<<<<<<< Updated upstream
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_8__["default"], {
             item: true,
             xs: 12,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_9__["default"], (_jsx4 = {
+=======
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            item: true,
+            xs: 12,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_TextField__WEBPACK_IMPORTED_MODULE_10__["default"], (_jsx4 = {
+>>>>>>> Stashed changes
               onKeyUp: function onKeyUp(e) {
                 props.validateConfirmPass(e.target.value);
               },
@@ -26401,15 +26673,23 @@ var SignUp = function SignUp(props) {
               error: props.confirmPassError === "" ? false : true,
               required: true,
               fullWidth: true,
+<<<<<<< Updated upstream
               name: "confirmPass",
               label: "Confirm Password",
               type: "password",
               id: "confirmPass",
+=======
+              name: "confirm_password",
+              label: "Confirm Password",
+              type: "password",
+              id: "confirm_password",
+>>>>>>> Stashed changes
               autoComplete: "new-password",
               InputLabelProps: {
                 required: false
               }
             }, _defineProperty(_jsx4, "autoComplete", "off"), _defineProperty(_jsx4, "type", props.isShownConfirmPass === false ? "password" : "text"), _defineProperty(_jsx4, "defaultValue", props.confirmPass), _defineProperty(_jsx4, "InputProps", {
+<<<<<<< Updated upstream
               endAdornment: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_10__["default"], {
                 position: "end",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_11__["default"], {
@@ -26417,11 +26697,24 @@ var SignUp = function SignUp(props) {
                   onClick: handleShowConfirmPass,
                   edge: "end",
                   children: props.isShownConfirmPass ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_icons_material_VisibilityOff__WEBPACK_IMPORTED_MODULE_12__["default"], {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_icons_material_Visibility__WEBPACK_IMPORTED_MODULE_13__["default"], {})
+=======
+              endAdornment: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_InputAdornment__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                position: "end",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_12__["default"], {
+                  "aria-label": "toggle password visibility",
+                  onClick: handleShowConfirmPass,
+                  edge: "end",
+                  children: props.isShownConfirmPass ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_icons_material_VisibilityOff__WEBPACK_IMPORTED_MODULE_13__["default"], {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_icons_material_Visibility__WEBPACK_IMPORTED_MODULE_14__["default"], {})
+>>>>>>> Stashed changes
                 })
               })
             }), _jsx4))
           })]
+<<<<<<< Updated upstream
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Button__WEBPACK_IMPORTED_MODULE_14__["default"], {
+=======
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Button__WEBPACK_IMPORTED_MODULE_15__["default"], {
+>>>>>>> Stashed changes
           type: "submit",
           fullWidth: true,
           variant: "contained",
@@ -26431,6 +26724,7 @@ var SignUp = function SignUp(props) {
           },
           disabled: props.isSubmitDisabled,
           children: "Sign Up"
+<<<<<<< Updated upstream
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_8__["default"], {
           container: true,
           justifyContent: "center",
@@ -26441,6 +26735,17 @@ var SignUp = function SignUp(props) {
               component: react_router_dom__WEBPACK_IMPORTED_MODULE_16__.Link,
               to: "/",
               variant: "body2",
+=======
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+          container: true,
+          justifyContent: "center",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            item: true,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Link__WEBPACK_IMPORTED_MODULE_16__["default"], {
+              href: "",
+              variant: "body2",
+              onClick: navigateToSignIn,
+>>>>>>> Stashed changes
               children: "Already have an account? Sign in"
             })
           })
@@ -26547,7 +26852,11 @@ function Footer(props) {
     color: "text.secondary",
     align: "center"
   }, props), {}, {
+<<<<<<< Updated upstream
     children: ["Copyright © ", new Date().getFullYear(), "."]
+=======
+    children: ['Copyright © ', new Date().getFullYear(), '.']
+>>>>>>> Stashed changes
   }));
 }
 
@@ -26597,7 +26906,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var initialState = {
   emailError: "",
+<<<<<<< Updated upstream
   password: "",
+=======
+  emailErrorSignUp: "",
+  password: "",
+  passwordSignIn: "",
+>>>>>>> Stashed changes
   passwordError: "",
   confirmPass: "",
   confirmPassError: "",
@@ -26674,8 +26989,27 @@ var initialState = {
       });
 
     case _actions_types__WEBPACK_IMPORTED_MODULE_0__.FRESH_STATE:
+<<<<<<< Updated upstream
       return _objectSpread(_objectSpread({}, state), {}, {
         password: action.password
+=======
+      /*
+          Navigating to Sign In or Sign Up when you input in the email or
+          password field, the values will be the same when you go to the Sign
+          Up page.There were problems in re-initializing the state into initial state.
+          So this is a fix to force the states to be re-initialize.
+      */
+      return _objectSpread(_objectSpread({}, state), {}, {
+        emailError: "",
+        password: "",
+        passwordError: "",
+        confirmPass: "",
+        confirmPassError: "",
+        isShownPass: false,
+        isShownConfirmPass: false,
+        requestError: "",
+        requestErrorMessage: ""
+>>>>>>> Stashed changes
       });
 
     case _actions_types__WEBPACK_IMPORTED_MODULE_0__.TOGGLE_SUBMITBTN:

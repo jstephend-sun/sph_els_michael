@@ -19,7 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::prefix('v1')->group(function() {
-    Route::get('users', [\App\Http\Controllers\Api\UserController::class, 'getUsers']);
-    Route::post('sign-in', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
+Route::prefix('v1')->group(function () {
+    Route::post('sign-in', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+    Route::post('sign-up', [\App\Http\Controllers\Api\AuthController::class, 'register']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        // Route::get();
+    });
 });
